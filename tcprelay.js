@@ -97,8 +97,6 @@ function parseAddressHeader(data, offset) {
 }
 
 function TCPRelay(config, isLocal) {
-	
-
 	this.isLocal = isLocal;
 	this.server = null;
 	this.status = SERVER_STATUS_INIT;
@@ -159,7 +157,6 @@ TCPRelay.prototype.initLogger = function() {
 };
 
 TCPRelay.prototype.initServer = function() {
-	
 	var self = this;
 	return new Promise(function(resolve, reject) {
 		var config = self.config;
@@ -197,11 +194,10 @@ TCPRelay.prototype.initServer = function() {
 			reject(error);
 		});
 		server.on('listening', function() {
-			self.logger.info(self.getServerName(), 'is listening on...', address + ':' + port);
+			self.logger.info(self.getServerName(), 'is listening on', address + ':' + port);
 			self.status = SERVER_STATUS_RUNNING;
 			resolve();
 		});
-		self.logger.info(self.getServerName(), 'init config ', self.config);
 	});
 };
 
@@ -375,11 +371,9 @@ TCPRelay.prototype.handleConnectionByLocal = function(connection) {
 
 				stage = STAGE_CONNECTING;
 
-				logger.info(`[${connectionId}]: WebSocket to ${serverAddress}:${serverPort}`);
 				serverConnection = new WebSocket('ws://' + serverAddress + ':' + serverPort, {
 					perMessageDeflate: false
 				});
-				logger.info(`[${connectionId}]: serverConnection ${serverConnection}`);
 				serverConnection.on('open', function() {
 					logger.info(`[${connectionId}]: connecting to server`);
 					serverConnection.send(encryptor.encrypt(data.slice(3)), function() {
