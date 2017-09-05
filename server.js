@@ -29,7 +29,7 @@ function startWorker(id) {
     logger.info(`started worker ${id}`);
     var relay = new TCPRelay({
         serverAddress: process.env['SERVER_ADDRESS'] || server.serverAddress || '127.0.0.1',
-        serverPort: process.env['PORT'] || server.serverPort || 8388,
+        serverPort: process.env['PORT'] || server.serverPort || 8080,
         password: process.env['PASSWORD'] || server.password || 'shadowsocks-over-websocket',
         method: process.env['METHOD'] || server.method || 'aes-256-cfb'
     }, false);
